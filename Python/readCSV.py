@@ -2,7 +2,7 @@ import csv
 from itertools import groupby
 from operator import itemgetter
 
-with open('testcsv.csv','r') as csv_file:    
+with open('testData.csv','r') as csv_file:    
     csv_reader = csv.DictReader(csv_file)
 
     # for line in csv_reader:
