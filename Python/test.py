@@ -1,4 +1,4 @@
-import test2
+
 
 def findstem(arr):
  
@@ -18,6 +18,7 @@ def findstem(arr):
             # generating all possible substrings
             # of our reference string arr[0] i.e s
             stem = s[i:j]
+            print('stem',stem)
             k = 1
             for k in range(1, n):
  
@@ -29,36 +30,29 @@ def findstem(arr):
             # If current substring is present in
             # all strings and its length is greater
             # than current result
-            if (k + 1 == n and len(res) < len(stem)):
+            if (k <= n and len(res) < len(stem)):
+                print(stem,k)
                 res = stem
  
     return res
-def greet():
-    print("hello")
-    print("Good morning")
-def add(x,y):
-    c=x+y
-    return c
+def long_substr(data):
+    substr = ''
+    if len(data) > 1 and len(data[0]) > 0:
+        for i in range(len(data[0])):
+            for j in range(len(data[0])-i+1):
+                if j > len(substr) and all(data[0][i:i+j] in x for x in data):
+                    substr = data[0][i:i+j]
+    return substr
  
 # Driver Code
 if __name__ == "__main__":
  
-    arr = ["gre", "graceful",
-           "disgraceful", "gracefully"]
-    data_table = [{'Mig-ID': 'PATB34 FROO 87554', 'SN': 'NLCVNC214L','IPSO-Ship-to-BPID': '1559685', 'Ship-to-BPID': '6438', 'Site-ID': '537fgasgdghj636', 'Site-name': 'Country HQ West','ShiptoCode': 'Bordeaux'}, 
-                  {'Mig-ID': 'PATB34 FROO 87554', 'SN': 'NLCVNC2485','IPSO-Ship-to-BPID': '1559685', 'Ship-to-BPID': '6438', 'Site-ID': 'asdasuu276asfdh', 'Site-name': 'Country HQ New', 'ShiptoCode': 'Bordeaux'},
-                  {'Mig-ID': 'PATB34 PT00 57422', 'SN': 'NLCVNC300K','IPSO-Ship-to-BPID': '8534', 'Ship-to-BPID': '72653', 'Site-ID': 'asdasuu2SDFasfdh', 'Site-name': 'Country HQ PT', 'ShiptoCode': 'Porto'},
-                  {'Mig-ID': 'PATB34 PT00 6324', 'SN': 'NLCVNC3001','IPSO-Ship-to-BPID': '3580985', 'Ship-to-BPID': '72653', 'Site-ID': 'asdasdasdasad', 'Site-name': 'Country HQ PT00', 'ShiptoCode': 'Porto'},
-                  {'Mig-ID': 'PATB34 ZAOO 87554', 'SN': 'NLCVNC3002','IPSO-Ship-to-BPID': '1372804', 'Ship-to-BPID': '35212', 'Site-ID': '324HGASDF8763476', 'Site-name': 'Country HQ', 'ShiptoCode': 'Durban'},]
+    arr = ["Mpumalanga DC","Mpumalanga DC(White River)"]
     
-    # print(data_table[0]['id'])
-    # df =pd.read_csv('nba.csv')
-    # print(df)
      
     # Function call
-    stems = findstem(arr)
+    stems = long_substr(arr)
     print(stems )        
-    add(1,2)
-    test2.add()
+    
+    
  
-# This code is contributed by ita_c
