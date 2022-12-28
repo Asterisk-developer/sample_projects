@@ -1,15 +1,21 @@
 import csv
 from itertools import groupby
 from operator import itemgetter
+import test
 
-with open('testData.csv','r') as csv_file:    
+with open('testcsv.csv','r') as csv_file:    
     csv_reader = csv.DictReader(csv_file)
 
     # for line in csv_reader:
     #     print(line)
-    items = sorted(csv_reader,key=itemgetter('Position'))
+    items = sorted(csv_reader,key=itemgetter('SHIP-ID'))
 
-    for key, value in groupby(items,key=itemgetter('Position')):
+    for key, value in groupby(items,key=itemgetter('SHIP-ID')):
         print(key)
+        siteNames=[]
         for k in value:
-            print(k['Name'])
+            siteNames.append(k['SITE-NAME'])
+            print(k)
+        print(siteNames)
+        lcs=test.findstem(siteNames)
+        print(lcs)

@@ -1,4 +1,4 @@
-import test1
+import test2
 
 def findstem(arr):
  
@@ -59,5 +59,6 @@ if __name__ == "__main__":
     stems = findstem(arr)
     print(stems )        
     add(1,2)
+    test2.add()
  
 # This code is contributed by ita_c
