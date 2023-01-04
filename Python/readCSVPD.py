@@ -18,18 +18,22 @@ lcsDict = {}
 for i in d.keys():    
     lcs=test.long_substr(d[i])
     df.loc[df['MS4 Ship-to BPID'] == i,'New site name'] =lcs
-    df.loc[df['MS4 Ship-to BPID'] == i,'New site ID'] =uuid.uuid1()    
-    
-print(df)
+    # df.loc[df['MS4 Ship-to BPID'] == i,'New site ID'] =uuid.uuid4()    
+
+for i in range(rows_count):
+    print(uuid.uuid4())
+    df.at[i,'New site ID'] = uuid.uuid4()
+# print(df)
 test.replace_site_name(3,2,df)
 test.replace_site_name(1,0,df)
 # for i,j in df.loc[(df['New site name'].str.len()>1) & (df['New site name'].str.len()<4)].iterrows():
 #     print(j)
 #     df.loc[df['New site ID']==j['New site ID'],'New site name'] = j['New site name'] + '_' + j['City (from ShipToCode or IPSO BPID)']
     
-print(df)
+# print(df)
 
-# df.to_csv('demo.csv')
+df.to_csv('demo.csv')
+
 
 
     
