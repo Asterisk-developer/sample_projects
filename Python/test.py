@@ -1,4 +1,5 @@
 
+from collections import defaultdict
 
 def findstem(arr):
  
@@ -42,17 +43,40 @@ def long_substr(data):
             for j in range(len(data[0])-i+1):
                 if j > len(substr) and all(data[0][i:i+j] in x for x in data):
                     substr = data[0][i:i+j]
-    return substr
- 
+    
+    return substr.lstrip().rstrip()
+
+def testLong(test_list):
+    temp = defaultdict(int)
+    for sub in test_list:
+        for wrd in sub.split():
+            temp[wrd] += 1
+    res = max(temp, key=temp.get)
+    print("Word with maximum frequency : " + str(res))
+
+def replace_site_name(max,min,data,):
+    for i,j in data.loc[(data['New site name'].str.len()>=min) & (data['New site name'].str.len()<=max)].iterrows():
+        # print(j)
+        if min == 2:
+            data.loc[data['New site ID']==j['New site ID'],'New site name'] = j['New site name'] + '_' + j['City (from ShipToCode or IPSO BPID)']
+        elif min == 0:
+            data.loc[data['New site ID']==j['New site ID'],'New site name'] = j['City (from ShipToCode or IPSO BPID)']
+
+
+
 # Driver Code
 if __name__ == "__main__":
  
-    arr = ["Mpumalanga DC","Mpumalanga DC(White River)"]
+    arr = ["pumalanga (White River)","Mpumalanga DC (White River)"]
     
      
     # Function call
-    stems = long_substr(arr)
-    print(stems )        
+    testLong(arr)
+    # print(stems)        
     
     
+ 
+
+ 
+
  
