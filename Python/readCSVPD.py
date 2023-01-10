@@ -4,6 +4,7 @@ import uuid
 d = {}
 lcsDict = {}
 generated_itsm = []
+lcs_with_id ={}
 
 df = pd.read_csv('testData.csv')
 rows_count, columns_count = df.shape
@@ -13,20 +14,29 @@ common_bpid_cnt = sorted_data['MS4 Ship-to BPID'].value_counts()
 
 for key in common_bpid_cnt.keys():
     filt = sorted_data['MS4 Ship-to BPID'] == key
-    site_names = sorted_data.loc[filt, 'Site name']
+    site_names = sorted_data.loc[filt, 'Site name']    
     d[key] = sorted_data.loc[filt, 'Site name'].tolist()
+
+for i in range(rows_count):
+    df.at[i, 'New site ID'] = uuid.uuid4()
 
 for i in d.keys():
     lcs = test.long_substr(d[i])    
     df.loc[df['MS4 Ship-to BPID'] == i, 'New site name'] = lcs
+    if df.loc[df['MS4 Ship-to BPID'] == i].shape[0] ==1:    
+        df.loc[df['MS4 Ship-to BPID'] == i,'New site ID'] = df.loc[df['MS4 Ship-to BPID'] == i,'Site ID']
+    lcs_with_id[i] = lcs
 
-for i in range(rows_count):
-    df.at[i, 'New site ID'] = uuid.uuid4()
 test.replace_site_name(3, 2, df)
 test.replace_site_name(1, 0, df)
-generated_itsm = df['New site name'].tolist()
+max_int = 1
 
 for i in range(rows_count):
-    test.check_already_present(generated_itsm,df.loc[i,'New site name'],df.loc[i,'New site ID'],df)    
+    changing_bpid = df.loc[i,'MS4 Ship-to BPID']
+    generated_itsm = df.loc[df['MS4 Ship-to BPID'] != changing_bpid,'New site name'].tolist()    
+    max_int=test.check_already_present(generated_itsm,df.loc[i,'New site name'],df.loc[i,'New site ID'],df,changing_bpid,max_int)  
+    
 
 df.to_csv('demo.csv', index=False)
+
+

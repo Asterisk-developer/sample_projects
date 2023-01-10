@@ -1,7 +1,7 @@
 
-from collections import defaultdict
 import re
 import random
+# import pandas as pd
 
 def long_substr(data):
     substr = ''
@@ -25,14 +25,16 @@ def replace_site_name(max,min,data):
 def remove_special_chars(str):
     return re.sub(r"^\W+", "", re.sub(r'([^\w\s]|_)+(?=\s|$)', "", str)).lstrip().rstrip()
 
-def check_already_present(generated_items,string_to_check,site_id,data):
-    if generated_items.count(string_to_check) >  1:
-        new_site_name = string_to_check + '_' + str(random.randint(0,9))        
-        check_already_present(generated_items,new_site_name,site_id,data)        
-    else:
+def check_already_present(generated_items,string_to_check,site_id,data,bpid,max_int):
+    
+    if generated_items.count(string_to_check) >  0:        
+        new_site_name = string_to_check + '_' + str(max_int)     
+        max_int = max_int + 1
+        check_already_present(generated_items,new_site_name,site_id,data,bpid,max_int)        
+    else:        
         data.loc[data['New site ID']==site_id,'New site name']= string_to_check    
 
-  
+    return max_int
     
     
  
