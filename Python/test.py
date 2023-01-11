@@ -1,6 +1,7 @@
 
 import re
 import random
+import uuid
 # import pandas as pd
 
 def long_substr(data):
@@ -25,18 +26,29 @@ def replace_site_name(max,min,data):
 def remove_special_chars(str):
     return re.sub(r"^\W+", "", re.sub(r'([^\w\s]|_)+(?=\s|$)', "", str)).lstrip().rstrip()
 
-def check_already_present(generated_items,string_to_check,site_id,data,bpid,max_int):
+def check_already_present(generated_items,string_to_check,site_id,data,bpid,lcs_with_id):    
+    if generated_items.count(string_to_check) >  0:   
+        matched_items = [s for s in generated_items if string_to_check in s] 
+        append_number = match_check(matched_items)      
+        new_site_name = (data.loc[data['New site ID']==site_id,'New site name'].tolist())[0] + '_' + str(append_number)                              
+        check_already_present(generated_items,new_site_name,site_id,data,bpid,lcs_with_id)        
+    else:                
+        if len(lcs_with_id[bpid]) > 0:
+            data.loc[data['MS4 Ship-to BPID']==bpid,'New site name'] = string_to_check
+            data.loc[data['MS4 Ship-to BPID']==bpid,'New site ID'] = uuid.uuid4()
+        else:
+            data.loc[data['New site ID']==site_id,'New site name'] = string_to_check      
     
-    if generated_items.count(string_to_check) >  0:        
-        new_site_name = string_to_check + '_' + str(max_int)     
-        max_int = max_int + 1
-        check_already_present(generated_items,new_site_name,site_id,data,bpid,max_int)        
-    else:        
-        data.loc[data['New site ID']==site_id,'New site name']= string_to_check    
+def match_check(items):
+    append_number = 2
+    for i in items:
+        split_str = i.split('_')        
+        if (len(split_str) > 1 ):
+            if (split_str[1].isnumeric()) and (int(split_str[1]) >= append_number):
+                append_number = int(split_str[1])  + 1                            
+    return append_number
+            
 
-    return max_int
-    
-    
  
 
  

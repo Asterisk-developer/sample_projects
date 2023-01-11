@@ -6,7 +6,7 @@ lcsDict = {}
 generated_itsm = []
 lcs_with_id ={}
 
-df = pd.read_csv('testData.csv')
+df = pd.read_csv('testData1.csv')
 rows_count, columns_count = df.shape
 sorted_data = df.loc[0:rows_count, ['MS4 Ship-to BPID', 'Site name',
                                     'City (from ShipToCode or IPSO BPID)', 'New site name']].sort_values(by='MS4 Ship-to BPID')
@@ -29,12 +29,11 @@ for i in d.keys():
 
 test.replace_site_name(3, 2, df)
 test.replace_site_name(1, 0, df)
-max_int = 1
 
 for i in range(rows_count):
     changing_bpid = df.loc[i,'MS4 Ship-to BPID']
     generated_itsm = df.loc[df['MS4 Ship-to BPID'] != changing_bpid,'New site name'].tolist()    
-    max_int=test.check_already_present(generated_itsm,df.loc[i,'New site name'],df.loc[i,'New site ID'],df,changing_bpid,max_int)  
+    test.check_already_present(generated_itsm,df.loc[i,'New site name'],df.loc[i,'New site ID'],df,changing_bpid,lcs_with_id)  
     
 
 df.to_csv('demo.csv', index=False)
