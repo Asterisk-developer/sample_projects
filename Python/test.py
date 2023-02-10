@@ -1,12 +1,11 @@
-
 import re
-import random
 import uuid
-# import pandas as pd
 
 def long_substr(data):
     substr = ''
-    if len(data) > 1 and len(data[0]) > 0:
+    if len(data) == 1:
+        return remove_special_chars(data[0])
+    elif len(data) > 1 and len(data[0]) > 0:
         for i in range(len(data[0])):
             for j in range(len(data[0])-i+1):
                 if j > len(substr) and all(data[0][i:i+j] in x for x in data):
@@ -17,9 +16,9 @@ def long_substr(data):
 def replace_site_name(max,min,data):    
     for i,j in data.loc[(data['New site name'].str.len()>=min) & (data['New site name'].str.len()<=max)].iterrows():        
         if min == 2:
-            data.loc[data['New site ID']==j['New site ID'],'New site name'] = j['New site name'] + '_' + j['City (from ShipToCode or IPSO BPID)']
+            data.loc[data['New site ID']==j['New site ID'],'New site name'] = j['New site name'] + '_' + j['CITY']
         elif min == 0:
-            data.loc[data['New site ID']==j['New site ID'],'New site name'] = j['City (from ShipToCode or IPSO BPID)']
+            data.loc[data['New site ID']==j['New site ID'],'New site name'] = j['CITY']
             
     
 
@@ -33,9 +32,9 @@ def check_already_present(generated_items,string_to_check,site_id,data,bpid,lcs_
         new_site_name = (data.loc[data['New site ID']==site_id,'New site name'].tolist())[0] + '_' + str(append_number)                              
         check_already_present(generated_items,new_site_name,site_id,data,bpid,lcs_with_id)        
     else:                
-        if len(lcs_with_id[bpid]) > 0:
-            data.loc[data['MS4 Ship-to BPID']==bpid,'New site name'] = string_to_check
-            data.loc[data['MS4 Ship-to BPID']==bpid,'New site ID'] = uuid.uuid4()
+        if (len(lcs_with_id[bpid]) >= 0) and (data.loc[data['MS4 SHIP TO BPID'] == bpid].shape[0] > 1):
+            data.loc[data['MS4 SHIP TO BPID']==bpid,'New site name'] = string_to_check
+            data.loc[data['MS4 SHIP TO BPID']==bpid,'New site ID'] = uuid.uuid4()
         else:
             data.loc[data['New site ID']==site_id,'New site name'] = string_to_check      
     

@@ -4,7 +4,11 @@ import "./App.css";
 // import Events from "./components/Events";
 // import ClassEvents from "./components/ClassEvents"
 // import FunctionalCounter from "./components/FunctionalCounter";
-import ConditionalComponent from "./components/ConditionalComponent"
+// import ConditionalComponent from "./components/ConditionalComponent"
+// import Product from "./components/Product";
+// import Form from "./components/Form";
+// import Todo from "./components/Todo";
+import ModuleComponent from "./components/ModuleComponent";
 function App() {
   return (
     <div className="App">
@@ -12,7 +16,9 @@ function App() {
       {/* <ClassEvents></ClassEvents> */}
       {/* <Events></Events> */}
       {/* <FunctionalCounter></FunctionalCounter> */}
-      <ConditionalComponent></ConditionalComponent>
+      {/* <ConditionalComponent></ConditionalComponent> */}
+      {/* <Form></Form> */}
+      <ModuleComponent />
     </div>
   );
 }
