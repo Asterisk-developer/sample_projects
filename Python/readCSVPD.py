@@ -21,10 +21,7 @@ for key in common_bpid_cnt.keys():
 for i in range(rows_count):
     df.at[i, 'New site ID'] = uuid.uuid4()
 
-for i in d.keys():      
-    if df.loc[df['MS4 SHIP TO BPID'] == i].shape[0] == 1:            
-        df.loc[df['MS4 SHIP TO BPID'] == i,'New site ID'] = df.loc[df['MS4 SHIP TO BPID'] == i,'Site Id']
-    
+for i in d.keys():    
     lcs = test.long_substr(d[i])    
     df.loc[df['MS4 SHIP TO BPID'] == i, 'New site name'] = lcs
     
@@ -37,7 +34,10 @@ for i in range(rows_count):
     changing_bpid = df.loc[i,'MS4 SHIP TO BPID']
     generated_itsm = df.loc[df['MS4 SHIP TO BPID'] != changing_bpid,'New site name'].tolist()    
     test.check_already_present(generated_itsm,df.loc[i,'New site name'],df.loc[i,'New site ID'],df,changing_bpid,lcs_with_id)  
-    
-
+   
+for i in range(rows_count):
+    if((df.loc[i,'SITE_NAME']).lstrip().rstrip() == df.loc[i,'New site name']):        
+        df.at[i, 'New site ID'] = df.loc[i,'Site Id']
+        df.loc[df['MS4 SHIP TO BPID']==df.loc[i,'MS4 SHIP TO BPID'],'New site ID'] = df.loc[i,'Site Id']
 df.to_csv('demo.csv', index=False)
 
