@@ -1,0 +1,11 @@
+<form [formGroup] = 'loginPageForm'>
+    <label for="userName"> Username</label>
+    <input type="text" formControlName ='userName'>
+
+    <label for="password">Password</label>
+    <input type="password" formControlName = 'password'>
+
+    <button type="submit" [disabled] = "!loginPageForm.valid" (click)="login()">Login</button>
+</form>
+<!-- <p appHighlightDirecive = 'appHighlight'>asdasd</p> -->
+<div [appHighlightDirecive] = 'appHighlight'>{{amount | moneyPipe:'inr'}}</div>
